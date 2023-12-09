@@ -1,27 +1,22 @@
 #include "Event_Class.h"
 #include "Passenger_Class.h"
-#include <vector>  // Include the necessary header
+#include <vector>  // Include the necessary header for using vectors
 
-using namespace std;  // Use the standard namespace
-// Lists for passengers
-vector<Passenger> specialPassengersList;
-vector<Passenger> wheelchairPassengersList;
-vector<Passenger> passengersList;
+std::vector<Passenger> specialPassengersList;  // Assuming these are defined somewhere
+std::vector<Passenger> wheelchairPassengersList;
+std::vector<Passenger> passengersList;
 
-// Derived class ArrivalEvent
+    // Derived class ArrivalEvent
 void ArrivalEvent::Execute() {
     // Create a new passenger and add it to the appropriate list
-    Passenger newPassenger(Passenger newPassenger(1, PassengerType::SP, Station(1, StationType::BUS, "Bus Station"), Station(2, StationType::TRAIN, "Train Station"));
-);
+    Passenger newPassenger(/* provide necessary arguments for the constructor */);
 
-    // Add newPassenger to the appropriate list
+    // Add newPassenger to the appropriate list based on passengerType
     if (newPassenger.getType() == PassengerType::SP) {
         specialPassengersList.push_back(newPassenger);
-    }
-    else if (newPassenger.getType() == PassengerType::WP) {
+    } else if (newPassenger.getType() == PassengerType::WP) {
         wheelchairPassengersList.push_back(newPassenger);
-    }
-    else {
+    } else {
         passengersList.push_back(newPassenger);
     }
 }
@@ -34,7 +29,7 @@ void LeaveEvent::Execute() {
         if (passenger.getType() == PassengerType::NP && !passenger.hasBeenOnBus()) {
             // If found and hasn't been on a bus yet, cancel the passenger
             passenger.cancel();
-            break;  // Stop searching after canceling the first matching passenger
+            break; // Stop searching after canceling the first matching passenger
         }
     }
 }

@@ -24,7 +24,7 @@ class Station;
 // Class representing a station
 class Station {
 private:
-    int stationID; // Unique identifier for the station
+    int stationID;    // Unique identifier for the station
     StationType type; // Type of the station
     std::string name; // Name of the station
 
@@ -39,20 +39,20 @@ public:
 // Class representing a passenger
 class Passenger {
 private:
-    int passengerID; // Unique identifier for the passenger
+    int passengerID;   // Unique identifier for the passenger
     PassengerType type; // Type of the passenger
     Station startStation; // Starting station of the passenger
-    Station endStation; // Ending station of the passenger
+    Station endStation;   // Ending station of the passenger
 
 public:
     // Constructor and member functions as needed
-    Passenger(int id, PassengerType t, const Station& start, const Station& end)
+    Passenger(int id, PassengerType t, const Station &start, const Station &end)
         : passengerID(id), type(t), startStation(start), endStation(end) {}
 
     int getPassengerID() const { return passengerID; }
     PassengerType getType() const { return type; }
-    const Station& getStartStation() const { return startStation; }
-    const Station& getEndStation() const { return endStation; }
+    const Station &getStartStation() const { return startStation; }
+    const Station &getEndStation() const { return endStation; }
 
     // Additional member functions as needed
     bool hasBeenOnBus() const { /* implement as needed */ return false; }

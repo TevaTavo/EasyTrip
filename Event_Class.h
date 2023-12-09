@@ -1,7 +1,7 @@
 #ifndef EVENT_CLASS_H
 #define EVENT_CLASS_H
 
-#include "Passenger_Class.h"
+#include "Passenger_Class.h" // Assuming you have Passenger_Class.h defined
 
 class Event {
 protected:
@@ -51,7 +51,7 @@ public:
 class LeaveEvent : public Event {
 private:
     Station startStation;
-    
+
 public:
     LeaveEvent(int eventTime, const Passenger& passengerInfo, Station startStation)
         : Event(eventTime, passengerInfo), startStation(startStation) {}
