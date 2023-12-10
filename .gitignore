@@ -3,3 +3,4 @@
 
 #Idea exclude paths
 *.idea
+*.vscode
