@@ -2,39 +2,76 @@
 // Created by musta on 12/9/2023.
 //
 
-#ifndef QUEUE_H
-#define QUEUE_H
-#pragma once
-#include <queue>
 
-template <typename T>
-class MyQueue {
+#ifndef EASYTRIP_QUEUE_H
+#define EASYTRIP_QUEUE_H
+
+#include "Node.h"
+#include <iostream>
+
+template<class T>
+class Queue {
+private:
+    Node<T> *front;
+    Node<T> *rear;
+
 public:
-    void enqueue(const T& value) {
-        data.push(value);
+    // Constructor
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    // Queue Operations
+    bool isEmpty() const {
+        return front == nullptr;
     }
 
-    void dequeue() {
-        if (!data.empty()) {
-            data.pop();
+    void enqueue(T data) {
+        Node<T> *newNode = new Node<T>(data);
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear->setNext(newNode);
+            rear = newNode;
         }
     }
 
-    T front() const {
-        return data.front();
+    void dequeue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty" << std::endl;
+            return;
+        }
+        Node<T> *temp = front;
+        front = front->getNext();
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+        delete temp;
     }
 
-    bool isEmpty() const {
-        return data.empty();
+    T frontElement() const {
+        if (isEmpty()) {
+            std::cerr << "Queue is empty" << std::endl;
+            return T(); // Return default-constructed T if the queue is empty
+        }
+        return front->getData();
     }
 
-    size_t size() const {
-        return data.size();
+    void printQueue() const {
+        if (isEmpty()) {
+            std::cout << "Queue is empty" << std::endl;
+            return;
+        }
+        Node<T> *temp = front;
+        while (temp != nullptr) {
+            std::cout << temp->getData();
+            if (temp->getNext() != nullptr) {
+                std::cout << " -> ";
+            }
+            temp = temp->getNext();
+        }
+        std::cout << "end" << std::endl;
     }
-
-private:
-    std::queue<T> data;
 };
 
 
-#endif //QUEUE_H
+#endif //EASYTRIP_QUEUE_H
+

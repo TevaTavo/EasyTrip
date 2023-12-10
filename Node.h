@@ -1,32 +1,68 @@
-//
-// Created by musta on 12/9/2023.
-//
+#ifndef EASYTRIP_NODE_H
+#define EASYTRIP_NODE_H
 
-#ifndef NODE_H
-#define NODE_H
-#pragma once
-
-template <typename T>
+template<class T>
 class Node {
-public:
-    Node(const T& value) : data(value), next(nullptr) {}
-
-    T getData() const {
-        return data;
-    }
-
-    Node* getNext() const {
-        return next;
-    }
-
-    void setNext(Node* newNode) {
-        next = newNode;
-    }
-
 private:
     T data;
-    Node* next;
+    int priority;
+    Node<T> *next;
+
+public:
+    // Constructor
+    Node(T data, int priority);
+    Node(T data);
+
+    // Setter methods
+    void setData(T data);
+    void setPriority(int priority);
+    void setNext(Node<T> *next);
+
+    // Getter methods
+    T getData() const;
+    Node<T> *getNext() const;
+    int getPriority() const;
 };
 
+// Constructor
+template<class T>
+Node<T>::Node(T data) : data(data), next(nullptr) {}
 
-#endif //NODE_H
+template<class T>
+Node<T>::Node(T data, int priority) : data(data), priority(priority), next(nullptr) {}
+
+// Setter for data
+template<class T>
+void Node<T>::setData(T data) {
+    this->data = data;
+}
+
+template<class T>
+void Node<T>::setPriority(int priority) {
+    this->priority = priority;
+}
+
+// Setter for next
+template<class T>
+void Node<T>::setNext(Node<T> *next) {
+    this->next = next;
+}
+
+// Getter for data
+template<class T>
+T Node<T>::getData() const {
+    return data;
+}
+
+// Getter for next
+template<class T>
+Node<T> *Node<T>::getNext() const {
+    return next;
+}
+
+template<class T>
+int Node<T>::getPriority() const {
+    return priority;
+}
+
+#endif //EASYTRIP_NODE_H

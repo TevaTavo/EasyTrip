@@ -1,39 +1,83 @@
-//
-// Created by musta on 12/9/2023.
-//
+#ifndef EASYTRIP_PQUEUE_H
+#define EASYTRIP_PQUEUE_H
 
-#ifndef PQUEUE_H
-#define PQUEUE_H
-#pragma once
-#include <queue>
+#include "Node.h"
+#include <iostream>
 
-template <typename T>
-class MyPriorityQueue {
+template<class T>
+class PriorityQueue {
+protected:
+    Node<T>* front;
+
 public:
-    void enqueue(const T& value) {
-        data.push(value);
+    // Constructor
+    PriorityQueue() : front(nullptr) {
     }
 
-    void dequeue() {
-        if (!data.empty()) {
-            data.pop();
+    // Priority Queue Operations
+    bool isEmpty() const {
+        return front == nullptr;
+    }
+
+    void enqueue(T data, int priority) {
+        Node<T>* temp = new Node<T>(data, priority);
+
+        if (isEmpty() || front->getPriority() > priority) {
+            temp->setNext(front);
+            front = temp;
+        } else {
+            Node<T>* current = front;
+            while (current->getNext() != nullptr && current->getNext()->getPriority() <= priority) {
+                current = current->getNext();
+            }
+            temp->setNext(current->getNext());
+            current->setNext(temp);
         }
     }
 
-    T front() const {
-        return data.top();
+    void dequeue() {
+        if (isEmpty()) {
+            std::cout << "Priority Queue is empty" << std::endl;
+            return;
+        }
+        Node<T>* temp = front;
+        front = front->getNext();
+        delete temp;
     }
 
-    bool isEmpty() const {
-        return data.empty();
+    T frontElement() const {
+        if (isEmpty()) {
+            std::cerr << "Priority Queue is empty" << std::endl;
+            return T(); // Return default-constructed T if the queue is empty
+        }
+        return front->getData();
     }
 
-    size_t size() const {
-        return data.size();
+    void printPriorityQueue() const {
+        if (isEmpty()) {
+            std::cout << "Priority Queue is empty" << std::endl;
+            return;
+        }
+        Node<T>* temp = front;
+        while (temp != nullptr) {
+            std::cout << "(" << temp->getData() << ", " << temp->getPriority() << ") ";
+            temp = temp->getNext();
+        }
+        std::cout << std::endl;
     }
 
-private:
-    std::priority_queue<T> data;
+    int size() const {
+        int count = 0;
+        Node<T>* temp = front;
+        while (temp != nullptr) {
+            count++;
+            temp = temp->getNext();
+        }
+        return count;
+    }
+
+
+
 };
 
-#endif //PQUEUE_H
+#endif //EASYTRIP_PQUEUE_H
