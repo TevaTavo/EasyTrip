@@ -1,36 +1,41 @@
-#ifndef EVENT_CLASS_H
-#define EVENT_CLASS_H
-// 4:29
-#include <vector>
-#include "classes.h"
+#ifndef EASYTRIP_EVENTCLASS_H
+#define EASYTRIP_EVENTCLASS_H
 
-enum class PassengerType { SP, WP, NP }; // Define PassengerType enum
+#include "Time.h"
+#include "Passenger_Class.h"
+#include "Bus.h"
+#include "Queue.h"
+
+class Company; // Forward declaration for Company class
 
 class Event {
 public:
-    virtual void Execute() = 0; // Virtual function to be implemented by derived classes
-    virtual ~Event() = default; // Virtual destructor for polymorphic behavior
+    virtual ~Event() = default;
+    Event(Time eventTime, Passenger* passenger, Company* company)
+        : eventTime(eventTime), P(passenger), C(company) {}
+
+    virtual void execute() = 0;
+
+protected:
+    Time eventTime;
+    Passenger* P;
+    Company* C;
 };
 
-class ArrivalEvent : public Event {
-private:
-    PassengerType MapStringToPassengerType(const std::string& typeString);
-
+class ArriveEvent : public Event {
 public:
-    ArrivalEvent(const Passenger& passenger);
-    void Execute() override;
+    ArriveEvent(Time arrivalTime, Passenger* passenger, Company* company)
+        : Event(arrivalTime, passenger, company) {}
 
-private:
-    Passenger newPassenger;
+    void execute() override;
 };
 
 class LeaveEvent : public Event {
 public:
-    LeaveEvent(const Passenger& passenger);
-    void Execute() override;
+    LeaveEvent(Time leaveTime, Passenger* passenger, Company* company)
+        : Event(leaveTime, passenger, company) {}
 
-private:
-    Passenger leavePassenger;
+    void execute() override;
 };
 
-#endif
+#endif //EASYTRIP_EVENTCLASS_H
