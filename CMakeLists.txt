@@ -13,4 +13,6 @@ Passenger_Class.cpp
         Stack.h
         Event_Class.cpp
         LinkedList.h
-        Event_Class.cpp)
+        Event_Class.cpp
+        Time.cpp
+        Time.h)

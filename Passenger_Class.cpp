@@ -1,35 +1,88 @@
 #include "Passenger_Class.h"
-#include <algorithm> // Include this for std::find and std::remove
-// 4:29
 
-// Define the lists for passengers
-std::vector<Passenger> specialPassengersList;
-std::vector<Passenger> wheelchairPassengersList;
-std::vector<Passenger> passengersList;
+// Constructors
+Passenger::Passenger() {}
 
-// Implement member functions for the Passenger class as needed
+Passenger::Passenger(Time arrival, const int& origin, const int& destination, int id, const std::string& type, const std::string& status)
+    : Arrival(arrival), OriginStation(origin), DestinationStation(destination), ID(id), Type(type), Status(status) {}
 
-bool Passenger::hasBeenOnBus() const {
-    // Implement logic to check if the passenger has been on a bus
-    // For example, return true if the passenger has been on a bus; otherwise, return false
-    return false;
+// Accessors
+Time Passenger::getArrival() const {
+    return Arrival;
 }
 
-void Passenger::cancel() {
-    // Implement logic to cancel the passenger
-    // Update data structures/lists accordingly
-    // For example, remove the passenger from the appropriate list
+Time Passenger::getDeparture() const {
+    return Departure;
+}
 
-    // Use std::remove_if with erase to efficiently remove the passenger from the vectors
-    specialPassengersList.erase(std::remove_if(specialPassengersList.begin(), specialPassengersList.end(),
-                                               [this](const Passenger& p) { return p.getPassengerID() == this->getPassengerID(); }),
-                                specialPassengersList.end());
+int Passenger::getOriginStation() const {
+    return OriginStation;
+}
 
-    wheelchairPassengersList.erase(std::remove_if(wheelchairPassengersList.begin(), wheelchairPassengersList.end(),
-                                                  [this](const Passenger& p) { return p.getPassengerID() == this->getPassengerID(); }),
-                                   wheelchairPassengersList.end());
+int Passenger::getDestinationStation() const {
+    return DestinationStation;
+}
 
-    passengersList.erase(std::remove_if(passengersList.begin(), passengersList.end(),
-                                        [this](const Passenger& p) { return p.getPassengerID() == this->getPassengerID(); }),
-                         passengersList.end());
+int Passenger::getID() const {
+    return ID;
+}
+
+Time Passenger::getBoardingDuration() const {
+    return BoardingDuration;
+}
+
+std::string Passenger::getType() const {
+    return Type;
+}
+
+std::string Passenger::getStatus() const {
+    return Status;
+}
+
+// Mutators
+void Passenger::setArrival(Time arrival) {
+    Arrival = arrival;
+}
+
+void Passenger::setDeparture(Time departure) {
+    Departure = departure;
+}
+
+void Passenger::setOriginStation(const int& origin) {
+    OriginStation = origin;
+}
+
+void Passenger::setDestinationStation(const int& destination) {
+    DestinationStation = destination;
+}
+
+void Passenger::setType(const std::string& type) {
+    Type = type;
+}
+
+void Passenger::setStatus(const std::string& status) {
+    Status = status;
+}
+
+void Passenger::setID(int id) {
+    ID = id;
+}
+
+// Additional methods
+int Passenger::calculatePriority() const {
+    if (getType() == "SP") {
+        if (getStatus() == "Aged") {
+            return 4;
+        } else if (getStatus() == "POD") {
+            return 3;
+        } else if (getStatus() == "Pregnant") {
+            return 2;
+        }
+    }
+    return 1;
+}
+
+// Operator Overloading
+bool Passenger::operator==(const Passenger& other) const {
+    return calculatePriority() == other.calculatePriority();
 }
