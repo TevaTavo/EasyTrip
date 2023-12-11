@@ -15,4 +15,9 @@ Passenger_Class.cpp
         LinkedList.h
         Event_Class.cpp
         Time.cpp
-        Time.h)
+        Time.h
+        Company.h
+        Bus.h
+        Bus.h
+        Bus.cpp
+        Bus.cpp)
