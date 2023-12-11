@@ -1,2 +1,2 @@
-# EasyTrip 55
+# EasyTrip
 DSProject
