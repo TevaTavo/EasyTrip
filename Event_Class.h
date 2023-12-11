@@ -1,66 +1,36 @@
 #ifndef EVENT_CLASS_H
 #define EVENT_CLASS_H
 
-#include "Passenger_Class.h" // Assuming you have Passenger_Class.h defined
+#include <vector>
+#include "classes.h"
+
+enum class PassengerType { SP, WP, NP }; // Define PassengerType enum
 
 class Event {
-protected:
-    int eventTime;
-    Passenger passengerInfo;
-
 public:
-    Event(int eventTime, const Passenger& passengerInfo)
-        : eventTime(eventTime), passengerInfo(passengerInfo) {}
-
-    int getEventTime() const {
-        return eventTime;
-    }
-
-    const Passenger& getPassengerInfo() const {
-        return passengerInfo;
-    }
-
-    virtual void Execute() = 0;
+    virtual void Execute() = 0; // Virtual function to be implemented by derived classes
+    virtual ~Event() = default; // Virtual destructor for polymorphic behavior
 };
 
 class ArrivalEvent : public Event {
 private:
-    PassengerType passengerType;
-    Station startStation;
-    Station endStation;
+    PassengerType MapStringToPassengerType(const std::string& typeString);
 
 public:
-    ArrivalEvent(int eventTime, const Passenger& passengerInfo, PassengerType passengerType, Station startStation, Station endStation)
-        : Event(eventTime, passengerInfo), passengerType(passengerType), startStation(startStation), endStation(endStation) {}
-
-    PassengerType getPassengerType() const {
-        return passengerType;
-    }
-
-    const Station& getStartStation() const {
-        return startStation;
-    }
-
-    const Station& getEndStation() const {
-        return endStation;
-    }
-
+    ArrivalEvent(const Passenger& passenger);
     void Execute() override;
+
+private:
+    Passenger newPassenger;
 };
 
 class LeaveEvent : public Event {
-private:
-    Station startStation;
-
 public:
-    LeaveEvent(int eventTime, const Passenger& passengerInfo, Station startStation)
-        : Event(eventTime, passengerInfo), startStation(startStation) {}
-
-    const Station& getStartStation() const {
-        return startStation;
-    }
-
+    LeaveEvent(const Passenger& passenger);
     void Execute() override;
+
+private:
+    Passenger leavePassenger;
 };
 
 #endif
