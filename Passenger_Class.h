@@ -1,67 +1,36 @@
-#ifndef PASSENGER_CLASS_H
-#define PASSENGER_CLASS_H
+#ifndef EVENT_CLASS_H
+#define EVENT_CLASS_H
 
-#include <string>
 #include <vector>
+#include "classes.h"
 
-// Enum for passenger types
-enum class PassengerType {
-    SP, // Special Passenger
-    WP, // Wheelchair Passenger
-    NP  // Normal Passenger
+enum class PassengerType { SP, WP, NP }; // Define PassengerType enum
+
+class Event {
+public:
+    virtual void Execute() = 0; // Virtual function to be implemented by derived classes
+    virtual ~Event() = default; // Virtual destructor for polymorphic behavior
 };
 
-// Enum for station types
-enum class StationType {
-    BUS,
-    TRAIN,
-    AIRPORT
-};
-
-// Forward declarations
-class Station;
-
-// Class representing a station
-class Station {
+class ArrivalEvent : public Event {
 private:
-    int stationID;    // Unique identifier for the station
-    StationType type; // Type of the station
-    std::string name; // Name of the station
+    PassengerType MapStringToPassengerType(const std::string& typeString);
 
 public:
-    // Constructor and member functions as needed
-    Station(int id, StationType t, std::string n) : stationID(id), type(t), name(n) {}
-    int getStationID() const { return stationID; }
-    StationType getType() const { return type; }
-    std::string getName() const { return name; }
-};
+    ArrivalEvent(const Passenger& passenger);
+    void Execute() override;
 
-// Class representing a passenger
-class Passenger {
 private:
-    int passengerID;   // Unique identifier for the passenger
-    PassengerType type; // Type of the passenger
-    Station startStation; // Starting station of the passenger
-    Station endStation;   // Ending station of the passenger
-
-public:
-    // Constructor and member functions as needed
-    Passenger(int id, PassengerType t, const Station &start, const Station &end)
-        : passengerID(id), type(t), startStation(start), endStation(end) {}
-
-    int getPassengerID() const { return passengerID; }
-    PassengerType getType() const { return type; }
-    const Station &getStartStation() const { return startStation; }
-    const Station &getEndStation() const { return endStation; }
-
-    // Additional member functions as needed
-    bool hasBeenOnBus() const { /* implement as needed */ return false; }
-    void cancel() { /* implement as needed */ }
+    Passenger newPassenger;
 };
 
-// Lists for passengers
-extern std::vector<Passenger> specialPassengersList;
-extern std::vector<Passenger> wheelchairPassengersList;
-extern std::vector<Passenger> passengersList;
+class LeaveEvent : public Event {
+public:
+    LeaveEvent(const Passenger& passenger);
+    void Execute() override;
+
+private:
+    Passenger leavePassenger;
+};
 
 #endif
